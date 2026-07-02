@@ -1,5 +1,7 @@
 # RAVE — Equitable Candidate Discovery
 **Anti-Monoculture AI Recruiter · RedRob AI Hackathon 2026**
+[Live Demo Video Link](https://drive.google.com/file/d/1NqCXwZfKMSguCFwXdPBWTeI9zfXKWPga/view?usp=sharing)
+
 
 - Inspired by research on algorithmic monocultures,
 
