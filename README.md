@@ -22,11 +22,12 @@ The system has two parts: an offline ranker that generates the submission CSV, a
 ## File structure
 
 ```
-redrob-discovery/
-├── backend/
+project_RAVE/
+├── pae_backend/
 │   ├── main.py                  # FastAPI app — /api/rank, /api/chat
 │   ├── ranker.py                # ★ Submission script — scores 100k candidates → CSV
-│   ├── validate_submission.py   # Run this before uploading
+│   ├── celery_app.py
+│   ├── tasks.py
 │   ├── models/
 │   │   ├── __init__.py
 │   │   └── schemas.py           # Pydantic request/response models
@@ -44,6 +45,8 @@ redrob-discovery/
 ├── frontend/
 │   ├── src/
 │   │   ├── App.jsx
+│   │   ├── index.css
+│   │   ├── main.jsx
 │   │   ├── components/
 │   │   │   ├── LeftPanel.jsx        # JD input, signal weights, equity toggles
 │   │   │   ├── EquityDashboard.jsx  # Adverse impact + monoculture metrics
@@ -56,32 +59,46 @@ redrob-discovery/
 │   │   └── store/useStore.js        # Zustand global state
 │   ├── package.json
 │   ├── vite.config.js
-│   └── .env.example   #the env file goes here with the llm api (gemini used here in the project)
+│   ├── tailwind.config.js
+│   ├── postcss.config.js
+│   └── index.html
+├── rank.py
+├── output.csv     #the output csv fil that will be generated after executing the rank.py
+├── .env.example   #the env file goes here with the llm api (gemini used here in the project)
 ├── docker-compose.yml
 └── README.md
 ```
 
 ---
 
-## Step 1 — Generate the submission CSV
+## Step 1 — Generate the submission CSV (output.csv)
 
-The ranker runs fully offline. No network required. No external APIs called. Place the hackathon bundle files in `backend/`:
+The ranker runs fully offline. No network required. No external APIs called. Place the data files in 'pae_backend/data/' directory:
 
 ```
-pae_backend/ data/
-  candidates.jsonl   ← from hackathon bundle
-  job_description.docx    ← from hackathon bundle
+pae_backend/data/
+  candidates.jsonl   ← from hackathon given data
+  job_description.docx    ← from hackathon given data
 ```
 
 Then run:
 
 ```bash
+cd pae_backend
 pip install -r requirements.txt
 
+cd ..
 python rank.py --candidates ./pae_backend/data/candidates.jsonl --out ./output.csv
 ```
 The output.csv is the expected ranked output file.
 Expected: under 5 minutes
+
+Validate your output format with the pre-flight testing check script given by the hackathon conductors:
+
+go to the root directory and run the below command:
+```bash
+python pae_backend/validate_submission.py output.csv
+```
 
 ---
 
@@ -102,7 +119,7 @@ docker compose up --build
 
 **Backend:**
 ```bash
-cd backend
+cd pae_backend
 cp .env.example .env       # add your GEMINI_API_KEY
 pip install -r requirements.txt
 uvicorn main:app --reload --port 8000
@@ -123,7 +140,7 @@ npm run dev
 
 **Backend → Railway:**
 ```bash
-cd backend
+cd pae_backend
 railway login
 railway init
 railway up
@@ -184,7 +201,7 @@ The web app includes a real-time equity dashboard that runs alongside every rank
 
 | Variable | File | Value |
 |---|---|---|
-| `GEMINI_API_KEY` | `backend/.env` | Google AI Studio API key |
+| `GEMINI_API_KEY` | `pae_backend/.env` | Google AI Studio API key |
 | `VITE_API_URL` | `frontend/.env` | `http://localhost:8000` locally, Railway URL in production |
 
 ---
