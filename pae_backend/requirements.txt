@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+celery
+redis
+pydantic
+google-genai
+python-dotenv
+pandas
+numpy

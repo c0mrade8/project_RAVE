@@ -1,0 +1,6 @@
+**/*.jsonl
+**/*.json
+**/*.csv
+.git/
+venv/
+rave_env/
