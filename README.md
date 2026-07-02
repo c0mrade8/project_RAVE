@@ -1,15 +1,32 @@
 # RAVE — Equitable Candidate Discovery
 **Anti-Monoculture AI Recruiter · RedRob AI Hackathon 2026**
 
-Inspired by research on algorithmic monocultures,
+- Inspired by research on algorithmic monocultures,
+
 RAVE detects when multiple models reinforce the same biased decisions — a failure mode invisible in traditional hiring systems.
+
+- Traditional AI recruiters optimize for ranking accuracy.
+
+RAVE audits whether those rankings are fair, robust, and systemically safe.
+
+- First implementation of algorithmic monoculture detection in AI hiring systems (based on FAccT research).
 
 Built on FAccT '26 peer-reviewed research: *"Algorithmic Monocultures in Hiring"* — Bommasani, Bana, Creel, Jurafsky & Liang, ACM 2026. `doi:10.1145/3805689.3812400`
 
 ---
 
 ## What this is
+Modern AI hiring systems are not just biased — they are systemically reinforcing bias.
 
+Research shows:
+
+1 in 10 job openings exhibit adverse impact
+Candidates rejected once are statistically likely to be rejected everywhere
+Multiple AI systems converge on the same decisions, creating hidden monocultures
+
+These failures are invisible in traditional evaluation pipelines.
+
+RAVE makes them visible — and measurable — in real time.
 Most AI recruiters filter and rank candidates. This one does that — and actively monitors for the three documented failure modes of modern hiring algorithms:
 
 | Failure Mode | Research Finding | Our Response |
