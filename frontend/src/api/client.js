@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE = '';
+const BASE = '/';
 const api = axios.create({ baseURL: BASE, timeout: 60000 })
 
 // 1. Fire off the job description to get a Celery task_id
