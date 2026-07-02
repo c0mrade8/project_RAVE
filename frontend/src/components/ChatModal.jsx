@@ -21,25 +21,34 @@ export default function ChatModal() {
   const targetId = chatCandidate.candidate_id || chatCandidate.id
 
   async function send(q) {
-    const question = q || input.trim()
-    if (!question || chatLoading) return
-    setInput('')
-    appendChat({ role: 'user', content: question })
-    setChatLoading(true)
-    try {
-      const res = await chatAboutCandidate({
-        candidateId: targetId,
-        question,
-        jobDescription,
-        history: chatHistory,
-      })
-      appendChat({ role: 'assistant', content: res.answer, sources: res.sources_cited })
-    } catch (e) {
-      appendChat({ role: 'assistant', content: 'AI service temporarily unavailable. Please try again.', sources: [] })
-    } finally {
-      setChatLoading(false)
-    }
+  const question = q || input.trim()
+  if (!question || chatLoading) return
+  setInput('')
+  appendChat({ role: 'user', content: question })
+  setChatLoading(true)
+  try {
+    const res = await chatAboutCandidate({
+      candidateId: targetId,
+      question,
+      jobDescription,
+      history: chatHistory,
+    })
+
+    const replyText = res.reply || "No response text was generated.";
+    const sources = res.sources_cited || [];
+    
+    appendChat({ 
+      role: 'assistant', 
+      content: replyText, 
+      sources: sources
+    })
+
+  } catch (e) {
+    appendChat({ role: 'assistant', content: 'AI service temporarily unavailable. Please try again.', sources: [] })
+  } finally {
+    setChatLoading(false)
   }
+}
 
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 text-white"
@@ -68,18 +77,19 @@ export default function ChatModal() {
           )}
           {chatHistory.map((msg, i) => (
             <div key={i} className={`rounded-lg p-3 text-[13px] leading-relaxed
-              ${msg.role === 'user'
+                ${msg.role === 'user'
                 ? 'bg-accent/10 border border-accent/15 text-white'
                 : 'bg-bg3 border border-white/[0.07] text-muted'}`}>
-              {msg.role === 'assistant' && (
+                {msg.role === 'assistant' && (
                 <div className="text-[9px] font-bold text-accent2 mb-1.5 tracking-wider">REDROB AI</div>
-              )}
-              <p>{msg.content}</p>
-              {msg.sources?.length > 0 && (
+                )}
+                <p className="whitespace-pre-line">{msg.content}</p>
+                
+                {msg.sources?.length > 0 && (
                 <div className="text-[10px] text-faint mt-1.5">📄 {msg.sources.join(', ')}</div>
-              )}
+                )}
             </div>
-          ))}
+            ))}
           {chatLoading && (
             <div className="bg-bg3 border border-white/[0.07] rounded-lg p-3">
               <div className="text-[9px] font-bold text-accent2 mb-1.5 tracking-wider">REDROB AI</div>

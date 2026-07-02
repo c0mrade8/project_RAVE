@@ -21,13 +21,27 @@ export async function getTaskStatus(taskId) {
 
 // 2. Real-time candidate conversational assistant context route
 export async function chatAboutCandidate({ candidateId, question, jobDescription, history }) {
+  const formattedHistory = (history || []).map(msg => ({
+    role: msg.role,
+    sender: msg.role === 'assistant' ? 'assistant' : 'user',
+    content: msg.content,
+    text: msg.content,
+    message: msg.content
+  }));
+
   const { data } = await api.post('/api/chat', {
     candidate_id: candidateId,
-    question,
+    candidateId: candidateId, // back up key
+    
+    question: question,
+    
     job_description: jobDescription,
-    conversation_history: history,
+    jobDescription: jobDescription, // back up key
+    
+    conversation_history: formattedHistory,
+    history: formattedHistory // back up key
   })
-  return data // Returns ChatResponse
+  return data 
 }
 
 // 3. Health check baseline verification endpoint
