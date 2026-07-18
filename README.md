@@ -110,7 +110,7 @@ cd pae_backend
 pip install -r requirements.txt
 
 cd ..
-python pae_backend/rankerq.py --candidates ./pae_backend/data/candidates.jsonl --out ./output.csv
+python pae_backend/ranker.py --candidates ./pae_backend/data/candidates.jsonl --jd ./pae_backend/data/job_description.md --out ./output.csv
 ```
 The output.csv is the expected ranked output file.
 Expected: under 5 minutes
