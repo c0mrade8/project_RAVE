@@ -1,6 +1,4 @@
 import os
-import json
-from pathlib import Path
 from google import genai
 from google.genai import types
 from models.schemas import JDIntelligence
@@ -48,20 +46,20 @@ def _fallback_jd_parse(jd: str) -> JDIntelligence:
     Hardened heuristic pipeline fallback to ensure robust pipeline continuity
     if network/API constraints drop during runtime execution.
     """
-    l = jd.lower()
-    if any(w in l for w in ["data scientist", "machine learning", "ml", "recommend", "embeddings"]):
+    jd_lower = jd.lower()
+    if any(w in jd_lower for w in ["data scientist", "machine learning", "ml", "recommend", "embeddings"]):
         role, domain, skills = "Senior AI Engineer", "ML & Recommendations", [
             "Python", "PyTorch", "Embeddings", "Retrieval", "Ranking", "LLMs", "Fine-tuning", "RAG", "Pinecone", "Spark", "SQL"
         ]
-    elif any(w in l for w in ["product manager", "roadmap", "p&l", "arr"]):
+    elif any(w in jd_lower for w in ["product manager", "roadmap", "p&l", "arr"]):
         role, domain, skills = "Senior Product Manager", "Product & Growth", [
             "Product Strategy", "SQL", "A/B Testing", "User Research", "Roadmapping", "Data Analysis"
         ]
-    elif any(w in l for w in ["designer", "ux", "figma"]):
+    elif any(w in jd_lower for w in ["designer", "ux", "figma"]):
         role, domain, skills = "Senior UX Designer", "Product Design", [
             "Figma", "Design Systems", "User Research", "Prototyping", "Accessibility"
         ]
-    elif any(w in l for w in ["sre", "devops", "infrastructure", "reliability"]):
+    elif any(w in jd_lower for w in ["sre", "devops", "infrastructure", "reliability"]):
         role, domain, skills = "Senior SRE", "Infrastructure & Reliability", [
             "Kubernetes", "Terraform", "Go", "Python", "Prometheus", "AWS"
         ]

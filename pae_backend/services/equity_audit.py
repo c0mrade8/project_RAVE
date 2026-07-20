@@ -1,6 +1,5 @@
-import math
 import statistics
-from models.schemas import AdverseImpactMetric, EquityDashboard
+from models.schemas import AdverseImpactMetric
 
 # EEOC "four-fifths rule" guidelines
 FOUR_FIFTHS_THRESHOLD = 0.8
@@ -152,11 +151,6 @@ def build_equity_dashboard(scored_candidates: list[dict], adverse_metrics: list[
 
     alerts = [m.group for m in adverse_metrics if m.flag.get("value") == "alert"]
     
-    if alerts:
-        summary = f"⚠ ADVERSE IMPACT DETECTED: {', '.join(alerts)} applicant subgroups fall below the EEOC 4/5ths ratio threshold."
-    else:
-        summary = f"Equity audit clean. Monoculture clustering index verified at {overall_mono_risk}/100."
-
     return {
         "monoculture_risk_score": float(overall_mono_risk),
         "monoculture_risk_level": risk_level,

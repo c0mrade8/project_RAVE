@@ -42,7 +42,7 @@ def run_discovery_pipeline(self, job_description: str, dataset_path: str, weight
             
             try:
                 c = json.loads(line)
-            except:
+            except Exception:
                 continue
 
             # Core processing loop metrics

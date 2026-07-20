@@ -2,7 +2,6 @@
 Multi-Signal Scoring Engine // Robust Schema Ingestion
 Equitable Candidate Discovery Pipeline
 """
-import math
 import statistics
 from datetime import date, datetime
 from models.schemas import SignalScores, JDIntelligence
@@ -180,7 +179,6 @@ def score_candidate(c: dict, jd: JDIntelligence, weights: dict) -> SignalScores:
     
     # ── THE ANTIDOTE: HONEYPOT TRAP ERADICATION ──
     rs = get_redrob_signals(c)
-    profile = c.get("profile", {})
     
     # Trap check 1: Keyword stuffer with zero activity footprints
     is_ghost = rs.get("profile_views_received_30d", 0) == 0 and rs.get("search_appearance_30d", 0) == 0

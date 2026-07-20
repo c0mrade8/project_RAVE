@@ -44,7 +44,7 @@ async def lifespan(app: FastAPI):
                             line = line[:-1].strip()
                         try:
                             pool_build.append(json.loads(line))
-                        except:
+                        except Exception:
                             continue
                             
                 CANDIDATE_POOL = pool_build

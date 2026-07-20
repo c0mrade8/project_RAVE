@@ -237,7 +237,7 @@ def generate_reasoning_string(c: dict, scores: Scores, rank: int) -> str:
 
 # ── Main Vector Execution ─────────────────────────────────────────
 def run_ranking(candidates_path: str, jd_path: str, output_path: str, weights: dict):
-    print(f"[PAE Engine] Executing processing sequence...")
+    print("[PAE Engine] Executing processing sequence...")
     t0 = time.time()
 
     jd_text = Path(jd_path).read_text(encoding="utf-8")
@@ -249,7 +249,8 @@ def run_ranking(candidates_path: str, jd_path: str, output_path: str, weights: d
     with opener(candidates_path, "rt", encoding="utf-8") as f:
         for i, line in enumerate(f):
             line = line.strip()
-            if not line: continue
+            if not line: 
+                continue
             
             c = json.loads(line)
             s = compute_final_score(c, jd, weights)
