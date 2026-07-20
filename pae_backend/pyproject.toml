@@ -6,3 +6,6 @@ target-version = "py311"
 # Start lenient: catch real errors + unused imports, not style nitpicks.
 select = ["E", "F"]
 ignore = ["E501"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
