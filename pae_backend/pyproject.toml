@@ -1,0 +1,8 @@
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+# Start lenient: catch real errors + unused imports, not style nitpicks.
+select = ["E", "F"]
+ignore = ["E501"]
